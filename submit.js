@@ -20,7 +20,8 @@ function getTransporter(env) {
     host: env.SMTP_HOST,
     port: Number(env.SMTP_PORT || 587),
     secure: Number(env.SMTP_PORT) === 465,
-    auth: { user: env.SMTP_USER, pass: env.SMTP_PASS },
+    // Google shows App Passwords in groups of four ("abcd efgh ..."); drop the spaces.
+    auth: { user: env.SMTP_USER.trim(), pass: env.SMTP_PASS.replace(/\s+/g, '') },
     // Fail fast rather than hitting the hosting platform's 10-second limit.
     connectionTimeout: 7000,
     greetingTimeout: 5000,
@@ -88,11 +89,13 @@ async function handleSubmission({ get, photo, env, saveDir }) {
       fs.writeFileSync(path.join(saveDir, filename), pdf);
       console.log(`Email not configured; saved ${filename}`);
     } else {
-      throw new Error('Email is not configured (HR_EMAIL, SMTP_HOST, SMTP_USER, SMTP_PASS)');
+      const missing = ['HR_EMAIL', 'SMTP_HOST', 'SMTP_USER', 'SMTP_PASS'].filter((k) => !env[k]);
+      throw new Error(`Email is not configured: missing ${missing.join(', ')}`);
     }
     return { status: 200, body: { ok: true, applicationNo: data.applicationNo } };
   } catch (err) {
-    console.error('Submission failed:', err);
+    const hint = err.code === 'EAUTH' ? ' (Gmail rejected SMTP_USER / SMTP_PASS: check the App Password)' : '';
+    console.error(`Submission failed${hint}:`, err);
     return { status: 500, body: { error: 'Sorry, we could not submit your form right now. Please try again later.' } };
   }
 }
