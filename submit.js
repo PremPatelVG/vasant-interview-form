@@ -66,8 +66,10 @@ async function handleSubmission({ get, photo, env, saveDir }) {
   data.applicationNo = `VG-${ist.slice(0, 10).replace(/-/g, '')}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
   data.submittedAt = now.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', dateStyle: 'medium', timeStyle: 'short' });
 
+  let stage = 'PDF';
   try {
     const pdf = await buildPdf(data);
+    stage = 'MAIL';
     const safeName = data.name.replace(/[^a-z0-9]+/gi, '_').slice(0, 60);
     const filename = `Interview_Form_${safeName}_${data.applicationNo}.pdf`;
     const mailer = getTransporter(env);
@@ -96,7 +98,9 @@ async function handleSubmission({ get, photo, env, saveDir }) {
   } catch (err) {
     const hint = err.code === 'EAUTH' ? ' (Gmail rejected SMTP_USER / SMTP_PASS: check the App Password)' : '';
     console.error(`Submission failed${hint}:`, err);
-    return { status: 500, body: { error: 'Sorry, we could not submit your form right now. Please try again later.' } };
+    // A short reference code (no secrets) so HR can tell what failed without opening the logs.
+    const ref = [stage, err.code, err.responseCode].filter(Boolean).join('-');
+    return { status: 500, body: { error: `Sorry, we could not submit your form right now. Please try again later. (Ref: ${ref})` } };
   }
 }
 
