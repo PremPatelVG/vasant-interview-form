@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vasant Group – Candidate Interview Form</title>
+<style>
+  :root{--ink:#1a1a1a;--muted:#5f6368;--accent:#e98d2d;--line:#d9dce1;--head:#f3f4f6;--bg:#eef0f3}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);font-family:Arial,Helvetica,sans-serif;color:var(--ink)}
+  .wrap{max-width:980px;margin:28px auto;padding:0 16px}
+  .sheet{background:#fff;border:1px solid var(--line);border-top:6px solid var(--accent);box-shadow:0 4px 18px rgba(0,0,0,.06)}
+  .masthead{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 28px;border-bottom:2px solid var(--ink)}
+  .masthead img{width:170px;height:auto}
+  .masthead .title{text-align:right}
+  .masthead h1{margin:0;font-size:22px;letter-spacing:1.5px}
+  .masthead .sub{margin-top:4px;font-size:12px;color:var(--muted);letter-spacing:.5px;text-transform:uppercase}
+  .intro{padding:14px 28px;font-size:13px;color:var(--muted);background:#fafafa;border-bottom:1px solid var(--line);line-height:1.5}
+  form{padding:6px 28px 28px}
+  section{margin-top:26px}
+  .sec-head{display:flex;align-items:center;gap:10px;background:var(--ink);color:#fff;padding:9px 12px;font-size:13px;font-weight:700;letter-spacing:.8px;text-transform:uppercase}
+  .sec-head .no{background:var(--accent);color:#fff;min-width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;font-size:12px}
+  .sec-body{border:1px solid var(--line);border-top:0;padding:16px}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 18px}
+  .grid.three{grid-template-columns:repeat(3,1fr)}
+  .span2{grid-column:span 2}
+  .personal{display:grid;grid-template-columns:1fr 150px;gap:18px}
+  .field{display:flex;flex-direction:column;gap:5px}
+  label{font-size:12px;font-weight:700;color:#333}
+  input,select,textarea{width:100%;border:1px solid #c9cdd3;border-radius:3px;padding:9px 10px;font-size:14px;background:#fff;font-family:inherit}
+  input:focus,select:focus,textarea:focus{outline:2px solid rgba(233,141,45,.35);border-color:var(--accent)}
+  textarea{min-height:78px;resize:vertical}
+  .photo{border:1px dashed #9aa0a6;min-height:180px;padding:8px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-size:11px;color:var(--muted)}
+  .photo img{width:110px;height:135px;object-fit:cover;border:1px solid var(--line)}
+  .photo input{font-size:11px;padding:4px;border:0}
+  .table-wrap{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;min-width:700px}
+  th,td{border:1px solid var(--line);padding:0}
+  th{background:var(--head);font-size:11px;text-transform:uppercase;letter-spacing:.4px;padding:8px 6px;text-align:left}
+  td:first-child,th:first-child{width:46px;text-align:center}
+  td:first-child{font-size:13px;color:var(--muted)}
+  td input{border:0;border-radius:0;padding:9px 8px}
+  .note{font-size:12px;color:var(--muted);margin:0 0 10px}
+  .declaration{font-size:13px;line-height:1.6;background:#fafafa;border-left:3px solid var(--accent);padding:12px 14px;margin-bottom:14px}
+  .check{display:flex;align-items:flex-start;gap:8px;font-weight:400;font-size:13px}
+  .check input{width:auto;margin-top:2px}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px;padding-top:18px;border-top:1px solid var(--line)}
+  button{border:0;border-radius:3px;padding:12px 20px;font-weight:700;cursor:pointer;font-size:14px}
+  .primary{background:var(--ink);color:#fff}.secondary{background:#e8eaed;color:var(--ink)}
+  button[disabled]{opacity:.6;cursor:wait}
+  .req{color:#b00020}
+  .status{margin-top:14px;padding:12px 14px;font-size:14px;display:none}
+  .status.ok{display:block;background:#eaf7ee;color:#1d6b35;border:1px solid #bfe3ca}
+  .status.err{display:block;background:#fff1f1;color:#b00020;border:1px solid #f2c4c4}
+  footer{text-align:center;font-size:11px;color:var(--muted);padding:14px}
+  @media(max-width:720px){
+    .grid,.grid.three,.personal{grid-template-columns:1fr}.span2{grid-column:auto}
+    .masthead{flex-direction:column;text-align:center}.masthead .title{text-align:center}
+    form,.intro,.masthead{padding-left:16px;padding-right:16px}.wrap{margin:10px auto}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="sheet">
+  <div class="masthead">
+    <img src="logo.png" alt="Vasant Group">
+    <div class="title">
+      <h1>CANDIDATE INTERVIEW FORM</h1>
+      <div class="sub">Human Resources Department</div>
+    </div>
+  </div>
+  <div class="intro">
+    Please complete all sections in full. Fields marked <span class="req">*</span> are mandatory.
+    List qualifications with the highest first and employment with the current job first.
+  </div>
+
+  <form id="interviewForm" novalidate>
+    <section>
+      <div class="sec-head"><span class="no">1</span>Personal Details</div>
+      <div class="sec-body personal">
+        <div class="grid">
+          <div class="field"><label>Date</label><input type="date" name="date"></div>
+          <div class="field"><label>Reference (if any)</label><input name="reference" maxlength="120"></div>
+          <div class="field span2"><label>Full Name <span class="req">*</span></label><input name="name" required maxlength="120" autocomplete="name"></div>
+          <div class="field span2"><label>Position Applied For <span class="req">*</span></label><input name="position" required maxlength="120"></div>
+          <div class="field"><label>Mobile No. <span class="req">*</span></label><input type="tel" name="mobile" required pattern="[0-9+\-\s]{7,20}" title="Digits, spaces, + or - only" autocomplete="tel"></div>
+          <div class="field"><label>Email ID <span class="req">*</span></label><input type="email" name="email" required autocomplete="email"></div>
+          <div class="field"><label>Date of Birth</label><input type="date" name="dob"></div>
+          <div class="field"><label>Marital Status</label><select name="marital"><option value="">Select</option><option>Single</option><option>Married</option><option>Other</option></select></div>
+        </div>
+        <div class="field">
+          <label>Passport Size Photo</label>
+          <div class="photo">
+            <img id="preview" alt="" style="display:none">
+            <span id="photoHint">Affix recent photo<br>JPG / PNG, max 2 MB</span>
+            <input type="file" id="photo" name="photo" accept="image/jpeg,image/png">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="no">2</span>Educational Qualification</div>
+      <div class="sec-body">
+        <p class="note">Highest qualification first.</p>
+        <div class="table-wrap">
+          <table id="education">
+            <thead><tr><th>Sr.</th><th>Qualification / Particulars</th><th>Board / University</th><th>Year of Passing</th><th>% of Marks</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="grid" style="margin-top:14px">
+          <div class="field"><label>Medium of Education</label><input name="medium" maxlength="80"></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="no">3</span>Family Background</div>
+      <div class="sec-body">
+        <div class="table-wrap">
+          <table id="family">
+            <thead><tr><th>Sr.</th><th>Name</th><th>Age</th><th>Relation</th><th>Occupation</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="no">4</span>Employment History</div>
+      <div class="sec-body">
+        <p class="note">Current or most recent employer first.</p>
+        <div class="table-wrap">
+          <table id="experience">
+            <thead><tr><th>Sr.</th><th>Name of Company</th><th>Last Position Held</th><th>Gross Salary / Month (CTC)</th><th>From</th><th>To</th><th>Reason for Leaving</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="no">5</span>Current Employment &amp; Expectations</div>
+      <div class="sec-body grid">
+        <div class="field"><label>Current Designation</label><input name="currentDesignation" maxlength="120"></div>
+        <div class="field"><label>Expected Designation</label><input name="expectedDesignation" maxlength="120"></div>
+        <div class="field"><label>Current Gross Monthly Salary (₹)</label><input name="currentSalary" maxlength="40" inputmode="numeric"></div>
+        <div class="field"><label>Minimum Expected Salary per Month (₹)</label><input name="expectedSalary" maxlength="40" inputmode="numeric"></div>
+        <div class="field"><label>Reporting To (Current Job)</label><input name="reportsTo" maxlength="120"></div>
+        <div class="field"><label>No. of Persons Reporting to You</label><input name="teamSize" maxlength="20" inputmode="numeric"></div>
+        <div class="field"><label>Notice Period / Time Required to Join</label><input name="joiningTime" maxlength="80"></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="no">6</span>Career Goals &amp; Self Assessment</div>
+      <div class="sec-body grid three">
+        <div class="field"><label>Career Goals</label><textarea name="careerGoals" maxlength="1500"></textarea></div>
+        <div class="field"><label>Three Key Strengths</label><textarea name="strengths" maxlength="1500"></textarea></div>
+        <div class="field"><label>Three Areas of Improvement</label><textarea name="improvements" maxlength="1500"></textarea></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="no">7</span>References</div>
+      <div class="sec-body">
+        <p class="note">Other than family, relatives and friends; preferably a past employer or a well-known person in society.</p>
+        <div class="table-wrap">
+          <table id="references">
+            <thead><tr><th>Sr.</th><th>Name</th><th>Occupation</th><th>Contact No.</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="no">8</span>Declaration</div>
+      <div class="sec-body">
+        <div class="declaration">
+          I, the undersigned, hereby declare that the information given above is true to the best of my knowledge and belief.
+          I understand that my candidature and selection may be rejected in case of any discrepancy.
+        </div>
+        <div class="grid">
+          <div class="field"><label>Candidate Name (as signature) <span class="req">*</span></label><input name="signature" required maxlength="120"></div>
+          <div class="field" style="justify-content:flex-end">
+            <label class="check"><input type="checkbox" name="agree" required>I agree to the declaration above <span class="req">*</span></label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="actions">
+      <button type="submit" class="primary" id="submitBtn">Submit Application</button>
+      <button type="reset" class="secondary" onclick="resetPhoto()">Clear Form</button>
+    </div>
+    <div class="status" id="status" role="status"></div>
+  </form>
+</div>
+<footer>© Vasant Group · Your information is shared only with the Vasant Group HR team.</footer>
+</div>
+
+<script>
+function makeRows(tableId, count, cols){
+  const body=document.querySelector('#'+tableId+' tbody');
+  for(let i=1;i<=count;i++){
+    const tr=document.createElement('tr');
+    let html='<td>'+i+'</td>';
+    for(let j=0;j<cols;j++) html+='<td><input name="'+tableId+'['+(i-1)+']['+j+']" maxlength="200"></td>';
+    tr.innerHTML=html;
+    body.appendChild(tr);
+  }
+}
+makeRows('education',4,4);
+makeRows('family',5,4);
+makeRows('experience',5,6);
+makeRows('references',3,3);
+
+const photo=document.getElementById('photo'), preview=document.getElementById('preview'), hint=document.getElementById('photoHint');
+photo.addEventListener('change', function(){
+  const file=photo.files[0];
+  if(file && file.size>2*1024*1024){alert('Photo must be 2 MB or smaller.');photo.value='';}
+  if(!photo.files[0]){resetPhoto();return;}
+  const reader=new FileReader();
+  reader.onload=ev=>{preview.src=ev.target.result;preview.style.display='block';hint.style.display='none';};
+  reader.readAsDataURL(photo.files[0]);
+});
+function resetPhoto(){setTimeout(()=>{preview.style.display='none';hint.style.display='';},0);}
+const today=()=>{document.querySelector('input[name=date]').valueAsDate=new Date();};
+today();
+
+document.getElementById('interviewForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const status=document.getElementById('status');
+  if(!this.checkValidity()){
+    this.reportValidity();
+    return;
+  }
+  const btn=document.getElementById('submitBtn');
+  btn.disabled=true; btn.textContent='Submitting...'; status.className='status';
+  try{
+    const res=await fetch('/api/submit',{method:'POST',body:new FormData(this)});
+    const data=await res.json().catch(()=>({}));
+    if(!res.ok) throw new Error(data.error||'Submission failed. Please try again.');
+    status.textContent='Thank you! Your application has been submitted to the HR team.';
+    status.className='status ok';
+    this.reset(); resetPhoto(); today();
+  }catch(err){
+    status.textContent=err.message; status.className='status err';
+  }finally{
+    btn.disabled=false; btn.textContent='Submit Application';
+    status.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+});
+</script>
+</body>
+</html>

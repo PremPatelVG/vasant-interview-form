@@ -1,0 +1,7 @@
+[build]
+  publish = "public"
+
+[functions]
+  node_bundler = "esbuild"
+  # pdfkit reads its font files from disk, so ship it unbundled.
+  external_node_modules = ["pdfkit"]
