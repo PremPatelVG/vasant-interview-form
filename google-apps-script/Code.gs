@@ -15,6 +15,8 @@ const HEADERS = ['Submitted On', 'Application No.', 'Name', 'Position Applied Fo
   'Current Salary', 'Expected Salary', 'Notice Period', 'PDF', 'Photo'];
 
 function doPost(e) {
+  // Pressing Run on doPost in the editor has no form data; that is expected. Run "setup" instead.
+  if (!e || !e.postData) return json_({ ok: false, error: 'No form data: doPost only runs when the form is submitted.' });
   try {
     const d = JSON.parse(e.postData.contents);
     const required = ['name', 'position', 'mobile', 'email', 'pdf', 'applicationNo'];
