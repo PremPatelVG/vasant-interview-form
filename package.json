@@ -4,7 +4,8 @@
   "description": "Online interview form that emails HR a PDF of each submission",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test-email": "node test-email.js"
   },
   "author": "",
   "license": "ISC",

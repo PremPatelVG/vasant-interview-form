@@ -39,3 +39,4 @@ Any SMTP mailbox works. Common choices:
 - `pdf.js` / `logo.js` – lays out the PDF
 - `sample-submission.pdf` – an example of what HR receives
 - `GO-LIVE.md` – checklist for putting the form online
+- `TEST-LOCALLY.md` + `test-email.js` – test the form and the Gmail login on your own PC (`npm run test-email`)
