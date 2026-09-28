@@ -23,7 +23,7 @@ function doPost(e) {
 
     const folder = getFolder_();
     const safeName = String(d.name).replace(/[^a-z0-9]+/gi, '_').slice(0, 60);
-    const base = 'Interview_Form_' + safeName + '_' + d.applicationNo;
+    const base = d.applicationNo + '_' + safeName;
 
     const pdfBlob = Utilities.newBlob(Utilities.base64Decode(d.pdf), 'application/pdf', base + '.pdf');
     const pdfFile = folder.createFile(pdfBlob);
