@@ -92,7 +92,8 @@ async function handleSubmission({ get, photo, env, saveDir }) {
       console.log(`Email not configured; saved ${filename}`);
     } else {
       const missing = ['HR_EMAIL', 'SMTP_HOST', 'SMTP_USER', 'SMTP_PASS'].filter((k) => !env[k]);
-      throw new Error(`Email is not configured: missing ${missing.join(', ')}`);
+      throw Object.assign(new Error(`Email is not configured: missing ${missing.join(', ')}`),
+        { code: `MISSING_${missing.join('_')}` });
     }
     return { status: 200, body: { ok: true, applicationNo: data.applicationNo } };
   } catch (err) {
