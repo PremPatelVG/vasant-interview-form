@@ -1,4 +1,4 @@
-// Runs the form on your own server: `npm start`. (On Netlify, netlify/functions/submit.mts is used instead.)
+// Runs the form on your own server: `npm start`. (On Netlify, netlify/functions/submit.js is used instead.)
 require('dotenv').config({ quiet: true });
 const express = require('express');
 const multer = require('multer');

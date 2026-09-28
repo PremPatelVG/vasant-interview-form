@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test-email": "node test-email.js"
+    "test-email": "node test-email.js",
+    "build:browser": "esbuild browser/entry.js --bundle --platform=browser --format=iife --minify --inject:browser/buffer-shim.js --alias:pdfkit=./node_modules/pdfkit/js/pdfkit.standalone.js --outfile=public/interview-pdf.js"
   },
   "author": "",
   "license": "ISC",
@@ -19,5 +20,9 @@
   },
   "engines": {
     "node": ">=18"
+  },
+  "devDependencies": {
+    "buffer": "^6.0.3",
+    "esbuild": "^0.28.2"
   }
 }

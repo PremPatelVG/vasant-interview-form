@@ -1,6 +1,6 @@
 # Vasant Group Online Interview Form
 
-**Going live? See [GO-LIVE.md](GO-LIVE.md).**
+**Going live? See [GO-LIVE.md](GO-LIVE.md). Using Google Sheet instead of email? See [GOOGLE-SHEET-SETUP.md](GOOGLE-SHEET-SETUP.md).**
 
 Candidates fill in the interview form in their browser and click **Submit Application**.
 The server turns their answers (and passport photo) into a PDF and emails it to HR as an attachment.
@@ -39,4 +39,6 @@ Any SMTP mailbox works. Common choices:
 - `pdf.js` / `logo.js` – lays out the PDF
 - `sample-submission.pdf` – an example of what HR receives
 - `GO-LIVE.md` – checklist for putting the form online
+- `GOOGLE-SHEET-SETUP.md` + `google-apps-script/Code.gs` – save applications to Google Sheet + Drive instead (no email password)
+- `public/config.js` – set `APPS_SCRIPT_URL` to switch the form to Google Sheet mode; `public/interview-pdf.js` is the in-browser PDF builder (`npm run build:browser`)
 - `TEST-LOCALLY.md` + `test-email.js` – test the form and the Gmail login on your own PC (`npm run test-email`)

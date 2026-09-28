@@ -202,6 +202,7 @@
 <footer>© Vasant Group · Your information is shared only with the Vasant Group HR team.</footer>
 </div>
 
+<script src="config.js"></script>
 <script>
 function makeRows(tableId, count, cols){
   const body=document.querySelector('#'+tableId+' tbody');
@@ -241,9 +242,12 @@ document.getElementById('interviewForm').addEventListener('submit', async functi
   const btn=document.getElementById('submitBtn');
   btn.disabled=true; btn.textContent='Submitting...'; status.className='status';
   try{
-    const res=await fetch('/api/submit',{method:'POST',body:new FormData(this)});
-    const data=await res.json().catch(()=>({}));
-    if(!res.ok) throw new Error(data.error||'Submission failed. Please try again.');
+    if(window.APPS_SCRIPT_URL) await sendToGoogle(this);
+    else{
+      const res=await fetch('/api/submit',{method:'POST',body:new FormData(this)});
+      const data=await res.json().catch(()=>({}));
+      if(!res.ok) throw new Error(data.error||'Submission failed. Please try again.');
+    }
     status.textContent='Thank you! Your application has been submitted to the HR team.';
     status.className='status ok';
     this.reset(); resetPhoto(); today();
@@ -254,6 +258,52 @@ document.getElementById('interviewForm').addEventListener('submit', async functi
     status.scrollIntoView({behavior:'smooth',block:'center'});
   }
 });
+
+// ---- Google Sheet + Drive: build the PDF here in the browser and post it to the Apps Script web app ----
+const TEXT_FIELDS=['date','reference','name','position','mobile','email','dob','marital','medium','reportsTo','teamSize',
+  'joiningTime','currentSalary','expectedSalary','currentDesignation','expectedDesignation','careerGoals','improvements',
+  'strengths','signature'];
+const TABLES={education:[4,4],family:[5,4],experience:[5,6],references:[3,3]};
+
+function loadPdfLibrary(){
+  if(window.buildInterviewPdf) return Promise.resolve();
+  return new Promise((ok,fail)=>{
+    const s=document.createElement('script'); s.src='interview-pdf.js';
+    s.onload=ok; s.onerror=()=>fail(new Error('Could not load the PDF tool. Please check your connection and try again.'));
+    document.head.appendChild(s);
+  });
+}
+function toBase64(bytes){
+  let s=''; const chunk=0x8000;
+  for(let i=0;i<bytes.length;i+=chunk) s+=String.fromCharCode.apply(null,bytes.subarray(i,i+chunk));
+  return btoa(s);
+}
+async function sendToGoogle(form){
+  await loadPdfLibrary();
+  const fd=new FormData(form), get=k=>String(fd.get(k)||'').trim();
+  const data={};
+  TEXT_FIELDS.forEach(k=>data[k]=get(k));
+  for(const [id,[rows,cols]] of Object.entries(TABLES)){
+    data[id]=[];
+    for(let i=0;i<rows;i++){
+      const row=[]; for(let j=0;j<cols;j++) row.push(get(`${id}[${i}][${j}]`));
+      if(row.some(Boolean)) data[id].push(row);
+    }
+  }
+  const now=new Date(), ist=new Date(now.getTime()+330*60000).toISOString();
+  data.applicationNo=`VG-${ist.slice(0,10).replace(/-/g,'')}-${Math.random().toString(36).slice(2,6).toUpperCase()}`;
+  data.submittedAt=now.toLocaleString('en-IN',{timeZone:'Asia/Kolkata',dateStyle:'medium',timeStyle:'short'});
+  const file=photo.files[0], okType=file&&['image/jpeg','image/png'].includes(file.type);
+  data.photo=okType?new Uint8Array(await file.arrayBuffer()):null;
+
+  const pdf=await window.buildInterviewPdf(data);
+  const payload={...data,education:undefined,family:undefined,experience:undefined,references:undefined,
+    photo:data.photo?toBase64(data.photo):'',photoType:okType?file.type:'',pdf:toBase64(new Uint8Array(pdf))};
+  // A plain-text body keeps this a "simple" request, which Apps Script accepts from any website.
+  const res=await fetch(window.APPS_SCRIPT_URL,{method:'POST',body:JSON.stringify(payload)});
+  const out=await res.json().catch(()=>({}));
+  if(!res.ok||!out.ok) throw new Error('Sorry, we could not submit your form right now. Please try again later.'+(out.error?` (Ref: ${out.error})`:''));
+}
 </script>
 </body>
 </html>
