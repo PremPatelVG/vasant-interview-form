@@ -21,6 +21,10 @@ function getTransporter(env) {
     port: Number(env.SMTP_PORT || 587),
     secure: Number(env.SMTP_PORT) === 465,
     auth: { user: env.SMTP_USER, pass: env.SMTP_PASS },
+    // Fail fast rather than hitting the hosting platform's 10-second limit.
+    connectionTimeout: 7000,
+    greetingTimeout: 5000,
+    socketTimeout: 7000,
   });
   return transporter;
 }
